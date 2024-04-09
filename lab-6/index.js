@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 
+
 const cars = require('./cars.json');
 
 // Define API URL environment variable
