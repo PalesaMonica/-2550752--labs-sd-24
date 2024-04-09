@@ -1,9 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loadCarsBtn = document.getElementById('loadCarsBtn');
     const carList = document.getElementById('carList');
-    cars = [];
+    let cars = [];
+
+    // Use environment variable for API URL
+    const API_URL = process.env.API_URL || 'http://localhost:3001';
+
     loadCarsBtn.addEventListener('click', () => {
-        fetch('http://localhost:3001/cars')
+        fetch(`${API_URL}/cars`) // Use API_URL variable
             .then(response => response.json())
             .then(data => {
                 cars = data;
@@ -27,8 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 });
+
 function addCar(newCar) {
-    fetch('http://localhost:3001/cars', {
+    // Use environment variable for API URL
+    const API_URL = process.env.API_URL || 'http://localhost:3001';
+
+    fetch(`${API_URL}/cars`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -38,8 +46,7 @@ function addCar(newCar) {
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
-            //reload cars
-            // const loadCarsBtn = document.getElementById('loadCarsBtn');
+            // Reload cars
             loadCarsBtn.click();
         })
         .catch(error => {
@@ -47,6 +54,7 @@ function addCar(newCar) {
         });
 }
 
+const carForm = document.getElementById('carForm');
 carForm.addEventListener('submit', event => {
     event.preventDefault();
     const make = document.getElementById('make').value;
@@ -59,22 +67,26 @@ carForm.addEventListener('submit', event => {
 
 // Function to remove a car
 function removeCar(index) {
+    // Use environment variable for API URL
+    const API_URL = process.env.API_URL || 'http://localhost:3001';
+    
     const carId = cars[index].id;
-    fetch(`http://localhost:3001/cars/${carId}`, {
+    fetch(`${API_URL}/cars/${carId}`, {
         method: 'DELETE'
     })
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
-            //reload cars
-            // const loadCarsBtn = document.getElementById('loadCarsBtn');
+            // Reload cars
             loadCarsBtn.click();
         })
         .catch(error => {
             console.error('Error:', error);
         });
 }
+
 // Event delegation for remove buttons
+const carList = document.getElementById('carList');
 carList.addEventListener('click', event => {
     if (event.target.classList.contains('btn-remove')) {
         const index = event.target.dataset.index;

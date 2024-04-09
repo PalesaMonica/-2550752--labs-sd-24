@@ -1,26 +1,29 @@
-//create cars api using express
 const express = require('express');
 const app = express();
 
-
+// Use environment variable for port binding
+const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 
 const cars = require('./cars.json');
 
-//get all cars
+// Define API URL environment variable
+const API_URL = process.env.API_URL || 'http://localhost:3001';
+
+// GET all cars
 app.get('/cars', (req, res) => {
     res.json(cars);
 });
 
-//get car by id
+// GET car by id
 app.get('/cars/:id', (req, res) => {
     const id = req.params.id;
     const car = cars.find(car => car.id === id);
     res.json(car);
 });
 
-//update car
+// PUT update car by id
 app.put('/cars/:id', (req, res) => {
     const id = req.params.id;
     const updatedCar = req.body;
@@ -29,7 +32,7 @@ app.put('/cars/:id', (req, res) => {
     res.json(updatedCar);
 });
 
-//delete car
+// DELETE car by id
 app.delete('/cars/:id', (req, res) => {
     const id = req.params.id;
     const index = cars.findIndex(car => car.id === id);
@@ -37,16 +40,14 @@ app.delete('/cars/:id', (req, res) => {
     res.json({ message: `Car with id ${id} deleted` });
 });
 
-//add car
+// POST add new car
 app.post('/cars', (req, res) => {
-    console.log(req);
     const newCar = req.body;
-    console.log(newCar);
     cars.push(newCar);
     res.json(newCar);
 });
 
-//start app at localhost:3001
-app.listen(3001, () => {
-    console.log('Server started at http://localhost:3001');
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server started at ${API_URL}`);
 });
