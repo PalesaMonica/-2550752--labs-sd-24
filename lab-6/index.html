@@ -6,15 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lucky-Lot Cars</title>
     <link rel="stylesheet" href="./style.css">
-
-    <!-- Define environment variable for API URL -->
-    <script>
-        // Set the API URL based on environment (local or Azure)
-        const API_URL = process.env.API_URL || 'http://localhost:3001';
-    </script>
-
-    <!-- Update script tag to use correct URL -->
-    <script src="script.js" defer></script>
 </head>
 
 <body>
@@ -36,15 +27,22 @@
                 <input type="number" id="year" placeholder="Year" required>
                 <input type="text" id="color" placeholder="Color" required>
                 <input type="number" id="price" placeholder="Price" required>
-                <button type="submit">Add Car</button>
+                <button type="submit" class="btn">Add Car</button>
             </form>
         </div>
-
     </main>
     <footer>
         <p>&copy; 2024 Lucky-Lot Cars</p>
     </footer>
 
+    <!-- Define environment variable for API URL -->
+    <script>
+        // Set the API URL based on environment (local or Azure)
+        const API_URL = 'http://localhost:3001';
+    </script>
+
+    <!-- Include script.js -->
+    <script src="script.js" defer></script>
 </body>
 
 </html>
