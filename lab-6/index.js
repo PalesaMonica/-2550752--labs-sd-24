@@ -8,12 +8,9 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(cors());
 
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, 'public')));
 
 const cars = require('./cars.json');
-
-// Use relative path for API_URL
-const API_URL = '';
 
 // Define CORS options
 const corsOptions = {
