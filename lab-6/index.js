@@ -1,67 +1,61 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path'); // Import the path module
 const app = express();
 
+// Use environment variable for port binding
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
+
+// Use the CORS middleware
 app.use(cors());
+
+// Serve static files from the current directory
+app.use(express.static(path.join(__dirname)));
 
 const cars = require('./cars.json');
 
-const API_URL = process.env.API_URL || `http://localhost:${PORT}`;
+// Define API URL environment variable
+const API_URL = process.env.API_URL || 'http://localhost:3001';
 
-// Define a route handler for the root path
-
-
-// Route handlers for your cars API
+// GET all cars
 app.get('/cars', (req, res) => {
     res.json(cars);
 });
 
-// Route handler to get a specific car by ID
+// GET car by id
 app.get('/cars/:id', (req, res) => {
     const id = req.params.id;
     const car = cars.find(car => car.id === id);
-    if (car) {
-        res.json(car);
-    } else {
-        res.status(404).json({ error: 'Car not found' });
-    }
+    res.json(car);
 });
 
-// Route handler to add a new car
-app.post('/cars', (req, res) => {
-    const newCar = req.body;
-    cars.push(newCar);
-    res.status(201).json(newCar);
-});
-
-// Route handler to update a car by ID
+// PUT update car by id
 app.put('/cars/:id', (req, res) => {
     const id = req.params.id;
     const updatedCar = req.body;
     const index = cars.findIndex(car => car.id === id);
-    if (index !== -1) {
-        cars[index] = updatedCar;
-        res.json(updatedCar);
-    } else {
-        res.status(404).json({ error: 'Car not found' });
-    }
+    cars[index] = updatedCar;
+    res.json(updatedCar);
 });
 
-// Route handler to delete a car by ID
+// DELETE car by id
 app.delete('/cars/:id', (req, res) => {
     const id = req.params.id;
     const index = cars.findIndex(car => car.id === id);
-    if (index !== -1) {
-        const deletedCar = cars.splice(index, 1)[0];
-        res.json({ message: `Car with ID ${id} deleted`, car: deletedCar });
-    } else {
-        res.status(404).json({ error: 'Car not found' });
-    }
+    cars.splice(index, 1);
+    res.json({ message: `Car with id ${id} deleted` });
 });
 
+// POST add new car
+app.post('/cars', (req, res) => {
+    const newCar = req.body;
+    cars.push(newCar);
+    res.json(newCar);
+});
+
+// Start the server
 app.listen(PORT, () => {
     console.log(`Server started at ${API_URL}`);
 });
