@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname)));
+
 const cars = require('./cars.json');
 
 const API_URL = process.env.API_URL || `http://localhost:${PORT}`;
