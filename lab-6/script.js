@@ -1,64 +1,106 @@
-const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const app = express();
+document.addEventListener('DOMContentLoaded', () => {
+    const loadCarsBtn = document.getElementById('loadCarsBtn');
+    const carList = document.getElementById('carList');
 
-const PORT = process.env.PORT || 3001;
+    // Use relative path for API_URL
+    const API_URL = '';
 
-app.use(express.json());
-app.use(cors());
+    // Function to load cars
+    const loadCars = () => {
+        fetch(`${API_URL}/cars`)
+            .then(response => response.json())
+            .then(data => {
+                carList.innerHTML = '';
+                data.forEach((car, index) => {
+                    const carCard = createCarCard(car, index);
+                    carList.appendChild(carCard);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching car data:', error);
+            });
+    };
 
-app.use(express.static(path.join(__dirname, 'public')));
+    // Function to create a car card
+    const createCarCard = (car, index) => {
+        const carCard = document.createElement('div');
+        carCard.classList.add('car-card');
+        carCard.innerHTML = `
+            <h2>${car.make} ${car.model}</h2>
+            <p><strong>Year:</strong> ${car.year}</p>
+            <p><strong>Make:</strong> ${car.make}</p>
+            <p><strong>Model:</strong> ${car.model}</p>
+            <p><strong>Color:</strong> ${car.color}</p>
+            <p><strong>Price:</strong> R${car.price}</p>
+            <button class="btn btn-remove" data-index="${index}">Remove</button>
+        `;
+        return carCard;
+    };
 
-const cars = require('./cars.json');
+    // Event delegation for remove buttons
+    carList.addEventListener('click', event => {
+        if (event.target.classList.contains('btn-remove')) {
+            const index = event.target.dataset.index;
+            removeCar(index);
+        }
+    });
 
-// Set API_URL to the local server address
-const API_URL = `http://localhost:${PORT}`;
+    // Function to remove a car
+    const removeCar = (index) => {
+        const carId = index; // Assuming the index is the ID of the car
+        fetch(`${API_URL}/cars/${carId}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to delete car');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+            loadCars(); // Reload cars after removal
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    };
 
-// Define CORS options
-const corsOptions = {
-    origin: ['http://localhost:3001', 'https://lab6webapp.azurewebsites.net']
-};
+    // Form submission to add a new car
+    const carForm = document.getElementById('carForm');
+    carForm.addEventListener('submit', event => {
+        event.preventDefault();
+        const make = document.getElementById('make').value;
+        const model = document.getElementById('model').value;
+        const year = document.getElementById('year').value;
+        const color = document.getElementById('color').value;
+        const price = document.getElementById('price').value;
 
-// Use CORS middleware with options
-app.use(cors(corsOptions));
+        const newCar = { make, model, year, color, price };
 
-// GET all cars
-app.get('/cars', (req, res) => {
-    res.json(cars);
-});
+        fetch(`${API_URL}/cars`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newCar)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to add car');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Success:', data);
+            loadCars(); // Reload cars after addition
+            carForm.reset();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
 
-// GET car by id
-app.get('/cars/:id', (req, res) => {
-    const id = req.params.id;
-    const car = cars.find(car => car.id === id);
-    res.json(car);
-});
-
-// PUT update car by id
-app.put('/cars/:id', (req, res) => {
-    const id = req.params.id;
-    const updatedCar = req.body;
-    const index = cars.findIndex(car => car.id === id);
-    cars[index] = updatedCar;
-    res.json(updatedCar);
-});
-
-// DELETE car by id
-app.delete('/cars/:id', (req, res) => {
-    const id = req.params.id;
-    const index = cars.findIndex(car => car.id === id);
-    cars.splice(index, 1);
-    res.json({ message: `Car with id ${id} deleted` });
-});
-
-// POST add new car
-app.post('/cars', (req, res) => {
-    const newCar = req.body;
-    cars.push(newCar);
-    res.json(newCar);
-});
-
-app.listen(PORT, () => {
-    console.log(`Server started at ${API_URL}`);
+    // Load cars initially
+    loadCars();
 });
