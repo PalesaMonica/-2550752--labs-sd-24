@@ -1,5 +1,6 @@
 const express = require('express');
-const cors = require('cors'); // Import the cors middleware
+const cors = require('cors');
+const path = require('path'); // Import the path module
 const app = express();
 
 // Use environment variable for port binding
@@ -9,6 +10,9 @@ app.use(express.json());
 
 // Use the CORS middleware
 app.use(cors());
+
+// Serve static files from the current directory
+app.use(express.static(path.join(__dirname)));
 
 const cars = require('./cars.json');
 
