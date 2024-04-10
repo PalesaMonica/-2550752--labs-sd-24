@@ -57,5 +57,5 @@ app.post('/cars', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server started at ${API_URL}`);
+    console.log(`Server started at http://localhost:${PORT}`);
 });
