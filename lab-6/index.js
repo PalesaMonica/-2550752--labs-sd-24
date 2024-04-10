@@ -8,22 +8,23 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(cors());
 
-app.use(express.static(path.join(__dirname))); // Serve static files from the current directory
+app.use(express.static(path.join(__dirname)));
 
 const cars = require('./cars.json');
 
 // Define CORS options
 const corsOptions = {
-    origin: ['https://lab6webapp.azurewebsites.net'] // Allow only your Azure-hosted site
+    origin: ['http://localhost:3001', 'https://lab6webapp.azurewebsites.net']
 };
 
 // Use CORS middleware with options
 app.use(cors(corsOptions));
 
 // GET all cars
-app.get('/api/cars', (req, res) => {
+app.get('/cars', (req, res) => {
     res.json(cars);
 });
+
 // GET car by id
 app.get('/cars/:id', (req, res) => {
     const id = req.params.id;
@@ -54,6 +55,7 @@ app.post('/cars', (req, res) => {
     cars.push(newCar);
     res.json(newCar);
 });
+
 app.listen(PORT, () => {
     console.log(`Server started at http://localhost:${PORT}`);
 });
