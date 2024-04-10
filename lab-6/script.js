@@ -2,22 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadCarsBtn = document.getElementById('loadCarsBtn');
     const carList = document.getElementById('carList');
 
-    // Set API URL dynamically based on the environment
-    const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3001' : 'https://lab6webapp.azurewebsites.net';// Empty string as API URL will be determined by the hosting environment
-
     // Function to load cars
     const loadCars = () => {
-        let apiUrl = 'api/cars'; // Relative URL for the API endpoint
-    
-        // Check if the hostname is localhost, then use the local server URL
-        if (window.location.hostname === 'localhost') {
-            apiUrl = 'http://localhost:3001/api/cars'; // Assuming your local server runs on port 3001
-        } else {
-            // For other hostnames (e.g., Azure URL), use the appropriate URL
-            apiUrl = 'https://lab6webapp.azurewebsites.net/api/cars';
-        }
-    
-        fetch(apiUrl)
+        fetch(`/api/cars`) // Use relative URL for the API endpoint
             .then(response => response.json())
             .then(data => {
                 carList.innerHTML = '';
@@ -58,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to remove a car
     const removeCar = (index) => {
         const carId = index; // Assuming the index is the ID of the car
-        fetch(`${API_URL}/cars/${carId}`, {
+        fetch(`/api/cars/${carId}`, {
             method: 'DELETE'
         })
         .then(response => {
@@ -88,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const newCar = { make, model, year, color, price };
 
-        fetch(`${API_URL}/cars`, {
+        fetch(`/api/cars`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
