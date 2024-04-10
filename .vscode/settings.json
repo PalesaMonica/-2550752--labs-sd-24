@@ -1,4 +1,0 @@
-{
-    "appService.defaultWebAppToDeploy": "/subscriptions/60d6d7b2-b2f6-4664-8c4a-0e7d1630c12b/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/lab6-cars-web",
-    "appService.deploySubpath": "."
-}
