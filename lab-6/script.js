@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to load cars
     const loadCars = () => {
-        fetch(`${API_URL}/cars`)
+        fetch(`api/cars`)
             .then(response => response.json())
             .then(data => {
                 carList.innerHTML = '';
