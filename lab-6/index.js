@@ -8,10 +8,7 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 
 // Allow requests from the domain where your client is hosted
-app.use(cors({
-  origin: 'https://lab6webapp.azurewebsites.net',
-  credentials: true // if your client sends cookies
-}));
+app.use(cors());
 
 app.use(express.static(path.join(__dirname)));
 
