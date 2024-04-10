@@ -12,9 +12,7 @@ const cars = require('./cars.json');
 const API_URL = process.env.API_URL || `http://localhost:${PORT}`;
 
 // Define a route handler for the root path
-app.get('/', (req, res) => {
-    res.send('Welcome to the Lucky-Lot Cars API!');
-});
+
 
 // Route handlers for your cars API
 app.get('/cars', (req, res) => {
