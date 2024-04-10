@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     };
 
+
     
 
     // Function to create a car card
