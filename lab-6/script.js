@@ -2,9 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadCarsBtn = document.getElementById('loadCarsBtn');
     const carList = document.getElementById('carList');
 
+    // Determine API URL based on the environment
+    const baseUrl = window.location.hostname === 'localhost' ? 'http://localhost:3001' : 'https://lab6webapp.azurewebsites.net';
+    const apiUrl = `${baseUrl}/api/cars`;
+
     // Function to load cars
     const loadCars = () => {
-        fetch(`/api/cars`) // Use relative URL for the API endpoint
+        fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
                 carList.innerHTML = '';
@@ -17,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error fetching car data:', error);
             });
     };
+    
 
     // Function to create a car card
     const createCarCard = (car, index) => {
