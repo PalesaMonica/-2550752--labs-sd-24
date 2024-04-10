@@ -6,13 +6,13 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:your_client_port_number'
+}));
 
 app.use(express.static(path.join(__dirname)));
 
 const cars = require('./cars.json');
-
-app.use(cors());
 
 // GET all cars
 app.get('/cars', (req, res) => {
