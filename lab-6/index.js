@@ -1,23 +1,27 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path'); // Import the path module
+const path = require('path');
 const app = express();
 
-// Use environment variable for port binding
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
-
-// Use the CORS middleware
 app.use(cors());
 
-// Serve static files from the current directory
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, 'public')));
 
 const cars = require('./cars.json');
 
-// Define API URL environment variable
-const API_URL = process.env.API_URL || 'http://localhost:3001';
+// Use relative path for API_URL
+const API_URL = '';
+
+// Define CORS options
+const corsOptions = {
+    origin: ['http://localhost:3001', 'https://lab6webapp.azurewebsites.net']
+};
+
+// Use CORS middleware with options
+app.use(cors(corsOptions));
 
 // GET all cars
 app.get('/cars', (req, res) => {
@@ -55,7 +59,6 @@ app.post('/cars', (req, res) => {
     res.json(newCar);
 });
 
-// Start the server
 app.listen(PORT, () => {
     console.log(`Server started at ${API_URL}`);
 });
