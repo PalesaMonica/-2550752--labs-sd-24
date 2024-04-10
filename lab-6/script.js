@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const carList = document.getElementById('carList');
     cars = [];
     loadCarsBtn.addEventListener('click', () => {
-        fetch('/cars')
+        fetch('/cars') // Fetch data from the relative URL
             .then(response => response.json())
             .then(data => {
                 cars = data;
