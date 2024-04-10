@@ -3,33 +3,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const carList = document.getElementById('carList');
 
     // Set API URL dynamically based on the environment
-    const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3001' : 'https://lab6webapp.azurewebsites.net';// Empty string as API URL will be determined by the hosting environment
+    const API_URL = ''; // Empty string as API URL will be determined by the hosting environment
 
     // Function to load cars
     const loadCars = () => {
-    let apiUrl = 'api/cars'; // Relative URL for the API endpoint
-
-    // Check if the hostname is localhost, then use the local server URL
-    if (window.location.hostname === 'localhost') {
-        apiUrl = 'http://localhost:3001/api/cars'; // Assuming your local server runs on port 3001
-    } else {
-        // For other hostnames (e.g., Azure URL), use the appropriate URL
-        apiUrl = 'https://lab6webapp.azurewebsites.net/api/cars';
-    }
-
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            carList.innerHTML = '';
-            data.forEach((car, index) => {
-                const carCard = createCarCard(car, index);
-                carList.appendChild(carCard);
+        fetch(`/api/cars`) // Use relative URL for the API endpoint
+            .then(response => response.json())
+            .then(data => {
+                carList.innerHTML = '';
+                data.forEach((car, index) => {
+                    const carCard = createCarCard(car, index);
+                    carList.appendChild(carCard);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching car data:', error);
             });
-        })
-        .catch(error => {
-            console.error('Error fetching car data:', error);
-        });
-};
+    };
 
     // Function to create a car card
     const createCarCard = (car, index) => {
