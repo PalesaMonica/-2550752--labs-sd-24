@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to load cars
     const loadCars = () => {
-        fetch(`/api/cars`) // Use relative URL for the API endpoint
+        fetch(`${API_URL}/cars`) // Use relative URL for the API endpoint
             .then(response => response.json())
             .then(data => {
                 carList.innerHTML = '';
