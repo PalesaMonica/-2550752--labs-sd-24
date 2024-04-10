@@ -7,7 +7,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to load cars
     const loadCars = () => {
-        fetch(`api/cars`) // Use relative URL for the API endpoint
+        let apiUrl = 'api/cars'; // Relative URL for the API endpoint
+    
+        // Check if the hostname is localhost, then use the local server URL
+        if (window.location.hostname === 'localhost') {
+            apiUrl = 'http://localhost:3001/api/cars'; // Assuming your local server runs on port 3001
+        } else {
+            // For other hostnames (e.g., Azure URL), use the appropriate URL
+            apiUrl = 'https://lab6webapp.azurewebsites.net/api/cars';
+        }
+    
+        fetch(apiUrl)
             .then(response => response.json())
             .then(data => {
                 carList.innerHTML = '';
