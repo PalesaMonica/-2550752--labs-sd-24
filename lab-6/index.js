@@ -1,25 +1,16 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path'); // Import the path module
+const path = require('path');
 const app = express();
 
-// Use environment variable for port binding
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
-
-// Use the CORS middleware
 app.use(cors());
-
-// Serve static files from the current directory
 app.use(express.static(path.join(__dirname)));
 
 const cars = require('./cars.json');
 
-// Define API URL environment variable
-const API_URL = process.env.API_URL || 'http://localhost:3001';
-
-// GET all cars
 app.get('/cars', (req, res) => {
     res.json(cars);
 });
@@ -57,5 +48,5 @@ app.post('/cars', (req, res) => {
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server started at ${API_URL}`);
+    console.log(`Server started on port ${PORT}`);
 });
