@@ -12,13 +12,7 @@ app.use(express.static(path.join(__dirname)));
 
 const cars = require('./cars.json');
 
-// Define CORS options
-const corsOptions = {
-    origin: ['http://localhost:3001', 'https://lab6webapp.azurewebsites.net']
-};
-
-// Use CORS middleware with options
-app.use(cors(corsOptions));
+app.use(cors());
 
 // GET all cars
 app.get('/cars', (req, res) => {
