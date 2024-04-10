@@ -3,11 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const carList = document.getElementById('carList');
 
     // Set API URL dynamically based on the environment
-    const API_URL = ''; // Empty string as API URL will be determined by the hosting environment
+    const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3001' : 'https://lab6webapp.azurewebsites.net';
 
     // Function to load cars
     const loadCars = () => {
-        fetch(`/api/cars`) // Use relative URL for the API endpoint
+        fetch(`${API_URL}/cars`)
             .then(response => response.json())
             .then(data => {
                 carList.innerHTML = '';
