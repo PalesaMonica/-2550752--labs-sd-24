@@ -44,7 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to remove a car
     const removeCar = (index) => {
-        fetch(`${API_URL}/cars/${index}`, {
+        const carId = index; // Assuming the index is the ID of the car
+        fetch(`${API_URL}/cars/${carId}`, {
             method: 'DELETE'
         })
         .then(response => {
